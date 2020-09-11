@@ -9,12 +9,13 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=bnguyen@gwu.edu
 
-module load blast+/2.5.0
-module load R/3.4.2
+module load blast+
+module load R/3.5.3
 
+mkdir -p midori_blca
 MIDORI_file="MIDORI_UNIQ_GB239_CO1_RAW.fasta"
 
-grep ">" $MIDORI_file | sed -E 's/root.*$//' | sed 's/>//' | uniq > midori_blca/midori_accnos.txt
+grep ">" $MIDORI_file | sed -E 's/\..*$//' | sed 's/>//' | uniq > midori_blca/midori_accnos.txt
 
 #Are there any duplicates?
 sed -E 's/root.*$//' $MIDORI_file | awk '/^>/{f=!d[$1];d[$1]=1}f' > midori_blca/midori_blca_dedup.fasta
